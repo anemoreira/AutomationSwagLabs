@@ -1,49 +1,152 @@
-Projeto de Testes com Cypress
-Este repositório contém testes automatizados para uma aplicação web utilizando o Cypress. O projeto está configurado para rodar testes tanto em modo headless (sem interface gráfica) quanto com o navegador aberto.
+# 📌 Projeto de Testes com Cypress
 
-Requisitos
+Este repositório contém testes automatizados para uma aplicação web utilizando o [Cypress](https://www.cypress.io/). O projeto está configurado para rodar testes tanto em modo **headless** (sem interface gráfica) quanto com o navegador aberto.  
+
+---
+
+## 🛠 Requisitos
 Antes de executar os testes, verifique se você tem as seguintes ferramentas instaladas:
 
-Node.js (versão recomendada: 14.x ou superior)
-Cypress (gerenciado via npm)
-Git (para clonar o repositório)
-Instalação
-Clone o repositório para sua máquina local:
+- 📌 [Node.js](https://nodejs.org/) (versão recomendada: **14.x ou superior**)
+- 🌿 [Git](https://git-scm.com/) (para clonar o repositório)
+- ⚡ [Cypress](https://www.cypress.io/) (gerenciado via npm)
 
-git clone <url-do-repositorio>
-cd <nome-do-repositorio>
-Instale as dependências do projeto: npm install Esse comando irá instalar o Cypress e outras dependências definidas no arquivo package.json.
+---
 
-Configure as variáveis de ambiente:
+## 📥 Instalação
 
-O Cypress usa variáveis de ambiente para armazenar credenciais e outras informações necessárias para os testes. No arquivo .env, defina as credenciais de login: username= password= textFirstName= textLastName= textPostalCode= Executando os Testes
+1. **Clone o repositório** para sua máquina local:
 
-Executar em Modo Headless (Sem Interface Gráfica) Para rodar os testes em modo headless (sem abrir o navegador), você pode usar o seguinte comando: npx cypress run Este comando executará os testes em modo headless utilizando o navegador padrão (Chrome). Os resultados dos testes serão exibidos no terminal.
+   ```bash
+   git clone <url-do-repositorio>
+   cd <nome-do-repositorio>
+   ```
 
-Executar em Modo com Navegador Aberto (Interactive Mode) Se preferir ver o navegador aberto enquanto os testes são executados, utilize o seguinte comando: npx cypress open Isso abrirá a interface gráfica do Cypress onde você poderá ver e interagir com os testes. A interface permite selecionar quais testes executar e acompanhar os logs enquanto os testes acontecem.
+2. **Instale as dependências do projeto:**
 
-Escolher o Navegador No modo interativo (executando com npx cypress open), você pode escolher o navegador em que deseja executar os testes. O Cypress suporta os seguintes navegadores: Chrome Chromium Edge Basta selecionar o navegador desejado na interface gráfica do Cypress.
+   ```bash
+   npm install
+   ```
 
-Executar Testes de Forma Específica Se desejar rodar um arquivo de teste específico, pode-se usar o comando: npx cypress run --spec "cypress/e2e/.cy.ts"
+   Esse comando irá instalar o Cypress e outras dependências definidas no arquivo `package.json`.
 
-Rodar Testes em Diferentes Ambientes Se você tiver diferentes ambientes de configuração, pode especificar o ambiente desejado com o comando: npx cypress run --env = Estrutura do Projeto A estrutura do projeto é organizada da seguinte maneira:
+3. **Configure as variáveis de ambiente:**
 
-/cypress /fixtures # Dados de teste, como dados mock para testes /e2e # Arquivos de teste automatizado /support # Comandos e funcionalidades customizadas do Cypress /page-objects # Classes de Page Objects para estruturar e organizar os testes
+   O Cypress usa variáveis de ambiente para armazenar credenciais e outras informações necessárias para os testes. No arquivo `.env`, defina os valores conforme o exemplo abaixo:
 
-/cypress.json # Configurações globais do Cypress /package.json # Dependências do projeto /.env # Variáveis de ambiente
+   ```plaintext
+   username=<seu-usuario>
+   password=<sua-senha>
+   textFirstName=<seu-primeiro-nome>
+   textLastName=<seu-ultimo-nome>
+   textPostalCode=<seu-codigo-postal>
+   ```
 
-Dicas Limpar o Cache do Cypress: Caso enfrente problemas com o Cypress, você pode tentar limpar o cache com o comando: npx cypress cache clear
+---
 
-Resumo do README.md:
-Instalação: Como clonar o repositório e instalar as dependências.
-Configuração: Como configurar variáveis de ambiente, como credenciais e dados para testes.
-Execução de Testes:
-Como rodar os testes em modo headless (sem interface gráfica).
-Como rodar os testes com o navegador aberto.
-Como escolher o navegador.
-Como rodar testes específicos.
-Estrutura do Projeto: Descrição dos diretórios e arquivos principais do projeto.
-Dicas: Limpeza de cache do Cypress e como visualizar os logs.
-Essa documentação cobre o básico para rodar o Cypress de forma eficiente em ambos os modos, seja em headless ou com o navegador aberto.
+## 🚀 Executando os Testes
 
-Como executar o Dockerfile No mesmo local onde está o arquivo Dockerfile, execute o comando docker build -t project-test-typescript Para criar um container a partir da imagem construída, execute o comando docker project-test-typescript
+### 1️⃣ Executar em **Modo Headless** (Sem Interface Gráfica)
+Para rodar os testes em modo headless (sem abrir o navegador), utilize:
+
+```bash
+npx cypress run
+```
+
+Esse comando executa os testes no navegador padrão (Chrome) e exibe os resultados no terminal.
+
+---
+
+### 2️⃣ Executar em **Modo Interativo** (Navegador Aberto)
+Para abrir o Cypress e visualizar os testes em tempo real, use:
+
+```bash
+npx cypress open
+```
+
+Isso abrirá a interface do Cypress, permitindo selecionar testes e acompanhar logs durante a execução.
+
+---
+
+### 3️⃣ Escolher o **Navegador**
+No modo interativo (`npx cypress open`), você pode escolher entre os navegadores suportados:
+
+- 🌐 **Chrome**
+- ⚡ **Chromium**
+- 🏢 **Edge**
+
+Basta selecionar o navegador desejado na interface do Cypress.
+
+---
+
+### 4️⃣ Executar um **Teste Específico**
+Para rodar um arquivo de teste específico, use:
+
+```bash
+npx cypress run --spec "cypress/e2e/<caminho-do-arquivo-de-teste>.cy.ts"
+```
+
+---
+
+### 5️⃣ Rodar Testes em **Diferentes Ambientes**
+Caso tenha configurações de ambiente, especifique com:
+
+```bash
+npx cypress run --env <variavel-ambiente>=<valor>
+```
+
+---
+
+## 📂 Estrutura do Projeto
+A estrutura do projeto é organizada da seguinte maneira:
+
+```plaintext
+/cypress
+  /fixtures         # Dados de teste (ex: JSONs simulando APIs)
+  /e2e              # Arquivos de testes automatizados
+  /support          # Comandos e funções customizadas
+  /page-objects     # Implementação de Page Objects para melhor organização
+
+/cypress.config.js  # Configurações globais do Cypress
+/package.json       # Dependências do projeto
+/.env               # Variáveis de ambiente
+```
+
+---
+
+## 💡 Dicas
+
+### 🔄 Limpar o Cache do Cypress
+Caso enfrente problemas, tente limpar o cache com:
+
+```bash
+npx cypress cache clear
+```
+
+---
+
+## 🐳 Executando com Docker
+Se desejar rodar os testes em um container Docker:
+
+1. **Construa a imagem Docker:**
+
+   ```bash
+   docker build -t project-test-typescript .
+   ```
+
+2. **Execute o container:**
+
+   ```bash
+   docker run project-test-typescript
+   ```
+
+---
+
+## 📌 Resumo
+
+✔ **Instalação**: Como clonar e instalar dependências.  
+✔ **Configuração**: Definir variáveis de ambiente.  
+✔ **Execução de Testes**: Headless, navegador aberto, seleção de testes e ambientes.  
+✔ **Estrutura do Projeto**: Organização dos arquivos e diretórios.  
+✔ **Dicas Extras**: Cache do Cypress e Docker 🚀🔥
+
