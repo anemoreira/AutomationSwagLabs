@@ -131,13 +131,13 @@ Se desejar rodar os testes em um container Docker:
 1. **Construa a imagem Docker:**
 
    ```bash
-   docker buildx build -t project-test-typescript .
+   docker build -t project-test-typescript .
    ```
 
 2. **Execute o container:**
 
    ```bash
-   docker run project-test-typescript
+   docker run --rm project-test-typescript
    ```
 
 ---
