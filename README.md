@@ -107,7 +107,7 @@ A estrutura do projeto é organizada da seguinte maneira:
   /support          # Comandos e funções customizadas
   /page-objects     # Implementação de Page Objects para melhor organização
 
-/cypress.config.js  # Configurações globais do Cypress
+/cypress.config.ts  # Configurações globais do Cypress
 /package.json       # Dependências do projeto
 /.env               # Variáveis de ambiente
 ```
