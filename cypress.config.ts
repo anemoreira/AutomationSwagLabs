@@ -21,9 +21,10 @@ export default defineConfig({
         textPostalCode: process.env.CYPRESS_TEXT_POSTAL_CODE,    
       };
 
+        config.baseUrl = process.env.CYPRESS_BASE_URL || "";
+
       return config;
     },
-    baseUrl: "",
     videosFolder: "cypress/videos",
     screenshotsFolder: "cypress/screenshots",
   },
