@@ -26,7 +26,7 @@ jobs:
 
       - name: Criar arquivo .env
         run: |
-          echo "CYPRESS_BASE_URL=https://www.saucedemo.com" >> .env
+          echo "CYPRESS_BASE_URL=https://www.saucedemo.com/" >> .env
           echo "CYPRESS_username=standard_user" >> .env
           echo "CYPRESS_password=secret_sauce" >> .env
           echo "CYPRESS_TEXT_FIRST_NAME=Adejane" >> .env
