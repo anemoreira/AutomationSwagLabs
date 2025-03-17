@@ -23,7 +23,7 @@ export default defineConfig({
 
       return config;
     },
-    baseUrl: "https://www.saucedemo.com/",
+    baseUrl: "",
     videosFolder: "cypress/videos",
     screenshotsFolder: "cypress/screenshots",
   },
