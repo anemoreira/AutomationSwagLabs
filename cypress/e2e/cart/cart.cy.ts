@@ -47,8 +47,8 @@ context('Module Cart', () => {
     });
 
     it('Should add multiple products to cart', () => {
-      cartPage.addProductToCart(); // Adiciona o primeiro produto (backpack)
-      cartPage.addSecondProductToCart(); // Adiciona um segundo produto diferente
+      cartPage.addProductToCart(); 
+      cartPage.addSecondProductToCart(); 
       cartPage.verifyCartItemCount(2);
     });
 
@@ -65,11 +65,10 @@ context('Module Cart', () => {
       cartPage.verifyProductNameConsistency();
     });
 
-    // Substituí o teste de "carrinho cheio" por um mais relevante
     it('Should not add duplicate product from products page', () => {
       cartPage.addProductToCart();
-      cartPage.verifyCartItemCount(1); // Apenas 1 item adicionado
-      cartPage.verifyAddButtonNotVisible(); // Verifica que o botão "Add" não está mais presente
+      cartPage.verifyCartItemCount(1); 
+      cartPage.verifyAddButtonNotVisible();
     });
   });
 });
