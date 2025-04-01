@@ -11,9 +11,6 @@ cypress/videos/
 # Ignorar logs do Cypress
 cypress/logs/
 
-# Ignorar arquivos de ambiente
-cypress.env.json
-
 # Ignorar saída do Cypress para depuração
 cypress/results/
 
