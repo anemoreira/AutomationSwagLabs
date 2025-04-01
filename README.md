@@ -1,6 +1,6 @@
 # 📌 Projeto de Testes com Cypress
 
-Este repositório contém testes automatizados para uma aplicação web utilizando o [Cypress](https://www.cypress.io/). O projeto está configurado para rodar testes tanto em modo **headless** (sem interface gráfica) quanto com o navegador aberto.  
+Este repositório contém testes automatizados para uma aplicação web (https://www.saucedemo.com/) utilizando o [Cypress](https://www.cypress.io/). O projeto está configurado para rodar testes tanto em modo **headless** (sem interface gráfica) quanto com o navegador aberto.  
 
 ---
 
