@@ -1,104 +1,112 @@
 export class LoginPage {
-  // URL da página de login (o caminho relativo)
-  url = "/";
-
-  // Agrupando todos os seletores em um objeto `selectors`
-  private selectors = {
-    btnLogin: '[data-test="login-button"]',      // Botão de login
-    inputPassword: '[data-test="password"]',      // Campo de senha
-    inputUsername: '[data-test="username"]',      // Campo de nome de usuário
-    errorMessage: '[data-test="error"]',          // Mensagem de erro
-    errorContainer: '.error-message-container',   // Container de erro
-    linkLogout: '#logout_sidebar_link',           // Link para logout no menu lateral
-    menuButton: '#react-burger-menu-btn',         // Botão do menu lateral (hamburguer menu)
-    menuContainer: '.bm-menu',                    // Container do menu lateral
+  private url = "/";
+  
+  private readonly selectors = {
+    btnLogin: '[data-test="login-button"]',
+    inputPassword: '[data-test="password"]',
+    inputUsername: '[data-test="username"]',
+    errorMessage: '[data-test="error"]',
+    errorContainer: '.error-message-container',
+    linkLogout: '#logout_sidebar_link',
+    menuButton: '#react-burger-menu-btn',
+    menuContainer: '.bm-menu',
   };
 
-  // Função que retorna o botão de login
-  btnLogin() {
-    return cy.get(this.selectors.btnLogin);
+  private readonly errorMessages = {
+    usernameRequired: "Epic sadface: Username is required",
+    passwordRequired: "Epic sadface: Password is required",
+    invalidCredentials: "Epic sadface: Username and password do not match any user in this service"
+  };
+
+  getUrl(): string {
+    return this.url;
   }
 
-  // Função que retorna o campo de entrada da senha
-  inputPassword() {
-    return cy.get(this.selectors.inputPassword);
-  }
-
-  // Função que valida se a mensagem de erro para o campo de senha aparece quando o campo é deixado vazio
-  inputPasswordRequired() {
-    cy.get(this.selectors.errorContainer).should("be.visible"); // Verifica se o container de erro está visível
-    cy.get(this.selectors.errorMessage).should(
-      "have.text",
-      "Epic sadface: Password is required" // Verifica se a mensagem de erro correta é exibida
-    );
-  }
-
-  // Função que retorna o campo de entrada do nome de usuário
-  inputUsername() {
+  private getUsernameField() {
     return cy.get(this.selectors.inputUsername);
   }
 
-  // Função que valida se a mensagem de erro para o campo de nome de usuário aparece quando o campo é deixado vazio
-  inputUsernameRequired() {
-    cy.get(this.selectors.errorContainer).should("be.visible"); // Verifica se o container de erro está visível
-    cy.get(this.selectors.errorMessage).should(
-      "have.text",
-      "Epic sadface: Username is required" // Verifica a mensagem de erro correta é exibida
-    );
+  private getPasswordField() {
+    return cy.get(this.selectors.inputPassword);
   }
 
-  // Função que valida se a mensagem de erro aparece quando as credenciais de login são inválidas
-  invalidUsernameOrPassword() {
-    cy.get(this.selectors.errorContainer).should("be.visible"); // Verifica se o container de erro está visível
-    cy.get(this.selectors.errorMessage).should(
-      "have.text",
-      "Epic sadface: Username and password do not match any user in this service" // Verifica a mensagem de erro
-    );
+  private getLoginButton() {
+    return cy.get(this.selectors.btnLogin);
   }
 
-  // Função que verifica se estamos na página de produtos após o login bem-sucedido
-  isProductsPage() {
-    cy.url().should("contain", "inventory.html"); // Verifica se a URL contém 'inventory.html', indicando que a página de produtos foi carregada
+  private getErrorContainer() {
+    return cy.get(this.selectors.errorContainer);
   }
 
-  // Função que verifica se estamos na página de login (caso ainda não tenha feito login)
-  isLoginPage() {
-    cy.url().should("eq", Cypress.config().baseUrl); // Verifica se a URL corresponde à URL base configurada no Cypress
+  private getErrorMessage() {
+    return cy.get(this.selectors.errorMessage);
   }
 
-  // Função que retorna o link para o logout no menu lateral
-  linkLogout() {
+  private getMenuButton() {
+    return cy.get(this.selectors.menuButton);
+  }
+
+  private getMenuContainer() {
+    return cy.get(this.selectors.menuContainer);
+  }
+
+  private getLogoutLink() {
     return cy.get(this.selectors.linkLogout);
   }
 
-  // Função que realiza o login utilizando as credenciais fornecidas no arquivo de ambiente
-  login() {
-    // Obtendo credenciais de login armazenadas no arquivo de ambiente do Cypress
-    const username = Cypress.env("username"); // Obtém o nome de usuário
-    const password = Cypress.env("password"); // Obtém a senha
-
-    // Verificando se as credenciais estão definidas
-    if (!username || !password) {
-      throw new Error(
-        "⚠️ Error: Login credentials were not found. Check the .env file!" 
-        // Se as credenciais não estiverem definidas, lança um erro
-      );
-    }
-
-    // Exibindo as credenciais no console para depuração (remova isso em produção)
-    console.log("🔹 Cypress.env -> Username:", username); 
-    console.log("🔹 Cypress.env -> Password:", password ? "*****" : "NOT DEFINED"); // Exibe a senha (mas com a senha mascarada para segurança)
-
-    // Realizando o login com as credenciais
-    this.inputUsername().type(username); // Preenche o campo de nome de usuário com o valor armazenado
-    this.inputPassword().type(password, { log: false }); // Preenche o campo de senha com o valor armazenado (não loga a senha para segurança)
-    this.btnLogin().click(); // Clica no botão de login
-    this.isProductsPage(); // Verifica se a URL agora contém 'inventory.html', confirmando que estamos na página de produtos
+  fillUsername(username: string) {
+    this.getUsernameField().type(username);
   }
 
-  // Função que abre o menu lateral (hamburguer menu)
-  menuBurger() {
-    cy.get(this.selectors.menuButton).click(); // Clica no botão do menu lateral
-    cy.get(this.selectors.menuContainer).should("be.visible"); // Verifica se o menu lateral está visível após o clique
+  fillPassword(password: string) {
+    this.getPasswordField().type(password, { log: false });
+  }
+
+  fillCredentials({ username, password }: { username: string; password: string }) {
+    this.fillUsername(username);
+    this.fillPassword(password);
+  }
+
+  clickLoginButton() {
+    this.getLoginButton().click();
+  }
+
+  performLogout() {
+    this.getMenuButton().click();
+    this.getMenuContainer().should('be.visible');
+    this.getLogoutLink().click();
+  }
+
+  clearFormFields() {
+    this.getUsernameField().clear();
+    this.getPasswordField().clear();
+  }
+
+  verifyUsernameRequiredError() {
+    this.getErrorContainer().should('be.visible');
+    this.getErrorMessage().should('have.text', this.errorMessages.usernameRequired);
+  }
+
+  verifyPasswordRequiredError() {
+    this.getErrorContainer().should('be.visible');
+    this.getErrorMessage().should('have.text', this.errorMessages.passwordRequired);
+  }
+
+  verifyInvalidCredentialsError() {
+    this.getErrorContainer().should('be.visible');
+    this.getErrorMessage().should('have.text', this.errorMessages.invalidCredentials);
+  }
+
+  verifyProductsPage() {
+    cy.url().should('contain', 'inventory.html');
+  }
+
+  verifyLoginPage() {
+    cy.url().should('eq', Cypress.config().baseUrl);
+  }
+
+  verifyEmptyFields() {
+    this.getUsernameField().should('have.value', '');
+    this.getPasswordField().should('have.value', '');
   }
 }
