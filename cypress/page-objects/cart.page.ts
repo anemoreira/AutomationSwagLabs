@@ -1,98 +1,105 @@
 export class CartPage {
-    // Define os seletores dos elementos da página de carrinho
-    private selectors = {
-        btnAddToCart: '[data-test="add-to-cart-sauce-labs-backpack"]', // Seletor para o botão de adicionar ao carrinho
-        btnBackProducts: '[data-test="continue-shopping"]', // Seletor para o botão de voltar para os produtos
-        btnRemoveProductFromCart: '[data-test="remove-sauce-labs-backpack"]', // Seletor para o botão de remover o produto do carrinho
-        iconCart: '.shopping_cart_link', // Seletor para o ícone de carrinho de compras
-        cartBadge: '.shopping_cart_badge', // Seletor para o badge do carrinho (indica número de produtos)
-        productName: '#item_4_title_link .inventory_item_name', // Seletor para o nome do produto na página de produtos
-        productNameInCart: '.cart_item .inventory_item_name' // Seletor para o nome do produto na página de carrinho
+    private readonly selectors = {
+      btnAddToCart: '[data-test="add-to-cart-sauce-labs-backpack"]',
+      btnAddSecondProduct: '[data-test="add-to-cart-sauce-labs-bike-light"]', // Adiciona um segundo produto diferente
+      btnBackProducts: '[data-test="continue-shopping"]',
+      btnRemoveProductFromCart: '[data-test="remove-sauce-labs-backpack"]',
+      iconCart: '.shopping_cart_link',
+      cartBadge: '.shopping_cart_badge',
+      productName: '#item_4_title_link .inventory_item_name',
+      productNameInCart: '.cart_item .inventory_item_name'
     };
   
-    // Função que adiciona um produto ao carrinho
-    addCart(): void {
-        this.btnAddToCart().click(); // Clica no botão de adicionar ao carrinho
-        this.hasACart(); // Verifica se o carrinho agora tem produtos
+    private getAddToCartButton() {
+      return cy.get(this.selectors.btnAddToCart);
     }
   
-    // Função que retorna o elemento do botão de adicionar ao carrinho
-    btnAddToCart() {
-        return cy.get(this.selectors.btnAddToCart);
+    private getAddSecondProductButton() {
+      return cy.get(this.selectors.btnAddSecondProduct);
     }
   
-    // Função que retorna o elemento do botão de voltar para a página de produtos
-    btnBackProducts() {
-        return cy.get(this.selectors.btnBackProducts);
+    private getBackToProductsButton() {
+      return cy.get(this.selectors.btnBackProducts);
     }
   
-    // Função que retorna o elemento do botão de remover o produto do carrinho
-    btnRemoveProductFromCart() {
-        return cy.get(this.selectors.btnRemoveProductFromCart);
+    private getRemoveButton() {
+      return cy.get(this.selectors.btnRemoveProductFromCart);
     }
   
-    // Função que acessa a página do carrinho de compras
-    cart(): void {
-        this.iconCart().click(); // Clica no ícone do carrinho
-        this.isCartPage(); // Verifica se a página atual é a página do carrinho
+    private getCartIcon() {
+      return cy.get(this.selectors.iconCart);
     }
   
-    // Função que verifica se o carrinho tem produtos (verificando se o badge está visível)
-    hasACart(): void {
-        cy.get(this.selectors.cartBadge).should("be.visible");
+    private getCartBadge() {
+      return cy.get(this.selectors.cartBadge);
     }
   
-    // Função que verifica se o botão de remover o produto do carrinho está visível
-    hasRemoveButton(): void {
-        cy.get(this.selectors.btnRemoveProductFromCart).should("be.visible");
+    private getProductName() {
+      return cy.get(this.selectors.productName);
     }
   
-    // Função que retorna o elemento do ícone de carrinho
-    iconCart() {
-        return cy.get(this.selectors.iconCart);
+    private getProductNameInCart() {
+      return cy.get(this.selectors.productNameInCart);
     }
   
-    // Função que verifica se a URL da página contém 'cart.html' (indicando que estamos na página do carrinho)
-    isCartPage(): void {
-        cy.url().should("contain", "cart.html");
+    addProductToCart() {
+      this.getAddToCartButton().click();
     }
   
-    // Função que verifica se o carrinho está vazio (badge do carrinho não deve existir)
-    isEmptyCart(): void {
-        cy.get(this.selectors.cartBadge).should("not.exist");
+    addSecondProductToCart() {
+      this.getAddSecondProductButton().click();
     }
   
-    // Função que retorna o elemento do nome do produto na página de produtos
-    nameProduct() {
-        return cy.get(this.selectors.productName);
+    removeProductFromCart() {
+      this.getRemoveButton().click();
     }
   
-    // Função que retorna o elemento do nome do produto na página de carrinho
-    nameProductInCartPage() {
-        return cy.get(this.selectors.productNameInCart);
+    viewCart() {
+      this.getCartIcon().click();
     }
   
-    // Função que valida se o nome do produto na página do carrinho é igual ao nome do produto na página de produtos
-    validateProductName(): void {
-        let productName: string;
+    clickBackToProducts() {
+      this.getBackToProductsButton().click();
+    }
   
-        // Captura o nome do produto na página de produtos
-        cy.get(this.selectors.productName)
-            .invoke("text") // Pega o texto do nome do produto
-            .then((text: string) => {
-                productName = text.trim(); // Remove espaços extras e armazena o nome do produto
-            });
+    verifyCartHasItems() {
+      this.getCartBadge().should('be.visible');
+    }
   
-        // Acessa o carrinho
-        this.cart();
+    verifyCartIsEmpty() {
+      this.getCartBadge().should('not.exist');
+    }
   
-        // Verifica se o nome do produto no carrinho é o mesmo que o nome na página de produtos
-        cy.get(this.selectors.productNameInCart)
-            .should("be.visible") // Verifica se o nome do produto está visível na página de carrinho
-            .and(($el) => {
-                // Compara o nome do produto no carrinho com o nome capturado na página de produtos
-                expect($el.text().trim()).to.eq(productName);
-            });
+    verifyRemoveButtonVisible() {
+      this.getRemoveButton().should('be.visible');
+    }
+  
+    verifyAddButtonNotVisible() {
+      this.getAddToCartButton().should('not.exist');
+    }
+  
+    verifyCartPage() {
+      cy.url().should('contain', 'cart.html');
+    }
+  
+    verifyProductNameConsistency() {
+      let productName: string;
+      this.getProductName()
+        .invoke('text')
+        .then((text: string) => {
+          productName = text.trim();
+        });
+      this.viewCart();
+      this.getProductNameInCart()
+        .should('be.visible')
+        .and(($el) => {
+          expect($el.text().trim()).to.eq(productName);
+        });
+    }
+  
+    verifyCartItemCount(expectedCount: number) {
+      this.getCartBadge()
+        .should('be.visible')
+        .and('have.text', expectedCount.toString());
     }
   }
-  
