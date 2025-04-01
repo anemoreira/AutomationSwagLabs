@@ -1,0 +1,27 @@
+# Ignorar dependências do Node.js
+node_modules/
+
+# Ignorar cache do Cypress
+.cypress_cache/
+
+# Ignorar capturas de tela e vídeos dos testes
+cypress/screenshots/
+cypress/videos/
+
+# Ignorar logs do Cypress
+cypress/logs/
+
+# Ignorar arquivos de ambiente
+cypress.env.json
+
+# Ignorar saída do Cypress para depuração
+cypress/results/
+
+# Ignorar relatórios de cobertura de código
+coverage/
+
+# Ignorar arquivos do sistema operacional e editores de código
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
