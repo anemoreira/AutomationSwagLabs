@@ -1,106 +1,81 @@
 import { CartPage } from '../../page-objects/cart.page';
 import { CheckoutPage } from '../../page-objects/checkout.page';
 import { LoginPage } from '../../page-objects/login.page';
+import { Credentials } from '../../support/credentials';
 
 const loginPage = new LoginPage();
 const cartPage = new CartPage();
 const checkoutPage = new CheckoutPage();
+const credentials = new Credentials();
 
 context('Module Checkout', () => {
   beforeEach(() => {
-    cy.visit(loginPage.url);
+    cy.visit(loginPage.getUrl());
+    loginPage.fillCredentials(credentials.getValidCredentials());
+    loginPage.clickLoginButton();
+    loginPage.verifyProductsPage();
+    cartPage.addProductToCart();
+    cartPage.viewCart();
   });
 
   describe('Checkout Functionality', () => {
-    /**
-     * Deve ser possível completar uma compra com sucesso
-     */
-    it('Should be able to complete a purchase', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.inputFirstName().type(checkoutPage.textFirstName);
-      checkoutPage.inputLastName().type(checkoutPage.textLastName);
-      checkoutPage.inputPostalCode().type(checkoutPage.textPostalCode);
-      checkoutPage.btnContinue().click();
-      checkoutPage.isCheckoutPageStepTwo();
-      checkoutPage.btnFinish().click();
-      checkoutPage.isCheckoutPageComplete();
+    it('Should complete a purchase', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.fillCheckoutForm({
+        firstName: Cypress.env("textFirstName"),
+        lastName: Cypress.env("textLastName"),
+        postalCode: Cypress.env("textPostalCode")
+      });
+      checkoutPage.clickContinueButton();
+      checkoutPage.verifyCheckoutStepTwo();
+      checkoutPage.clickFinishButton();
+      checkoutPage.verifyCheckoutComplete();
     });
 
-    /**
-     * Deve ser possível acessar a primeira etapa do checkout e cancelar a compra
-     */
-    it('Should be able to go to the first step checkout page and cancel', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.btnCancel().click();
-      cartPage.isCartPage();
+    it('Should go to the first step checkout page and cancel', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.clickCancelButton();
+      cartPage.verifyCartPage();
     });
 
-    /**
-     * Deve ser possível acessar a segunda etapa do checkout e cancelar a compra
-     */
-    it('Should be able to go to the second step checkout page and cancel', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.inputFirstName().type(checkoutPage.textFirstName);
-      checkoutPage.inputLastName().type(checkoutPage.textLastName);
-      checkoutPage.inputPostalCode().type(checkoutPage.textPostalCode);
-      checkoutPage.btnContinue().click();
-      checkoutPage.isCheckoutPageStepTwo();
-      checkoutPage.btnCancel().click();
-      loginPage.isProductsPage();
+    it('Should go to the second step checkout page and cancel', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.fillCheckoutForm({
+        firstName: Cypress.env("textFirstName"),
+        lastName: Cypress.env("textLastName"),
+        postalCode: Cypress.env("textPostalCode")
+      });
+      checkoutPage.clickContinueButton();
+      checkoutPage.verifyCheckoutStepTwo();
+      checkoutPage.clickCancelButton();
+      loginPage.verifyProductsPage();
     });
 
-    /**
-     * Não deve ser possível prosseguir no checkout sem informar o primeiro nome
-     */
-    it('Should not be able to checkout without providing first name', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.btnContinue().click();
-      checkoutPage.inputFirstNameRequired();
+    it('Should not checkout without providing first name', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.clickContinueButton();
+      checkoutPage.verifyFirstNameRequiredError();
     });
 
-    /**
-     * Não deve ser possível prosseguir no checkout sem informar o sobrenome
-     */
-    it('Should not be able to checkout without providing last name', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.inputFirstName().type(checkoutPage.textFirstName);
-      checkoutPage.btnContinue().click();
-      checkoutPage.inputLastNameRequired();
+    it('Should not checkout without providing last name', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.fillFirstName(Cypress.env("textFirstName"));
+      checkoutPage.clickContinueButton();
+      checkoutPage.verifyLastNameRequiredError();
     });
 
-    /**
-     * Não deve ser possível prosseguir no checkout sem informar o código postal
-     */
-    it('Should not be able to checkout without providing postal code', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      checkoutPage.btnCheckout().click();
-      checkoutPage.isCheckoutPageStepOne();
-      checkoutPage.inputFirstName().type(checkoutPage.textFirstName);
-      checkoutPage.inputLastName().type(checkoutPage.textLastName);
-      checkoutPage.btnContinue().click();
-      checkoutPage.inputPostalCodeRequired();
+    it('Should not checkout without providing postal code', () => {
+      checkoutPage.clickCheckoutButton();
+      checkoutPage.verifyCheckoutStepOne();
+      checkoutPage.fillFirstName(Cypress.env("textFirstName"));
+      checkoutPage.fillLastName(Cypress.env("textLastName"));
+      checkoutPage.clickContinueButton();
+      checkoutPage.verifyPostalCodeRequiredError();
     });
   });
 });
