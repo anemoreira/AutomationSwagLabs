@@ -1,69 +1,75 @@
 import { CartPage } from '../../page-objects/cart.page';
 import { LoginPage } from '../../page-objects/login.page';
+import { Credentials } from '../../support/credentials';
 
 const loginPage = new LoginPage();
 const cartPage = new CartPage();
+const credentials = new Credentials();
 
 context('Module Cart', () => {
   beforeEach(() => {
-    cy.visit(loginPage.url);
+    cy.visit(loginPage.getUrl());
+    loginPage.fillCredentials(credentials.getValidCredentials());
+    loginPage.clickLoginButton();
+    loginPage.verifyProductsPage();
   });
 
   describe('Cart Functionality', () => {
-    /**
-     * Deve adicionar um produto ao carrinho com sucesso
-     * Esse teste verifica se um produto pode ser adicionado ao carrinho após o login
-     */
-    it('Should be able to add a product to cart', () => {
-      loginPage.login();
-      cartPage.addCart();
+    it('Should add a product to cart', () => {
+      cartPage.addProductToCart();
+      cartPage.verifyCartHasItems();
     });
 
-    /**
-     * Deve remover um produto da página de produtos
-     * O teste adiciona um item ao carrinho, verifica se o botão de remover está visível,
-     * e depois clica para remover, garantindo que o carrinho fique vazio.
-     */
-    it('Should be able to remove a product from the products page', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.hasRemoveButton();
-      cartPage.btnRemoveProductFromCart().click();
-      cartPage.isEmptyCart();
+    it('Should remove a product from the products page', () => {
+      cartPage.addProductToCart();
+      cartPage.verifyRemoveButtonVisible();
+      cartPage.removeProductFromCart();
+      cartPage.verifyCartIsEmpty();
     });
 
-    /**
-     * Deve visualizar o carrinho de compras
-     * Esse teste verifica se o usuário consegue acessar a página do carrinho após o login
-     */
-    it('Should be able to view the shopping cart', () => {
-      loginPage.login();
-      cartPage.cart();
+    it('Should view the shopping cart', () => {
+      cartPage.viewCart();
+      cartPage.verifyCartPage();
     });
 
-    /**
-     * Deve visualizar o carrinho e retornar para a página de produtos
-     * O teste garante que o usuário possa acessar o carrinho e voltar para a página de produtos
-     */
-    it('Should be able to view the shopping cart and return to the products page', () => {
-      loginPage.login();
-      cartPage.cart();
-      cartPage.btnBackProducts().click();
-      loginPage.isProductsPage();
+    it('Should view the shopping cart and return to products page', () => {
+      cartPage.viewCart();
+      cartPage.clickBackToProducts();
+      loginPage.verifyProductsPage();
     });
 
-    /**
-     * Deve remover um produto dentro da página do carrinho
-     * O teste adiciona um produto, acessa o carrinho, verifica o botão de remoção,
-     * e remove o produto, garantindo que o carrinho fique vazio.
-     */
-    it('Should be able to remove a product within the cart page', () => {
-      loginPage.login();
-      cartPage.addCart();
-      cartPage.cart();
-      cartPage.hasRemoveButton();
-      cartPage.btnRemoveProductFromCart().click();
-      cartPage.isEmptyCart();
+    it('Should remove a product within the cart page', () => {
+      cartPage.addProductToCart();
+      cartPage.viewCart();
+      cartPage.verifyRemoveButtonVisible();
+      cartPage.removeProductFromCart();
+      cartPage.verifyCartIsEmpty();
+    });
+
+    it('Should add multiple products to cart', () => {
+      cartPage.addProductToCart(); // Adiciona o primeiro produto (backpack)
+      cartPage.addSecondProductToCart(); // Adiciona um segundo produto diferente
+      cartPage.verifyCartItemCount(2);
+    });
+
+    it('Should maintain cart items after page navigation', () => {
+      cartPage.addProductToCart();
+      cartPage.viewCart();
+      cartPage.clickBackToProducts();
+      cartPage.viewCart();
+      cartPage.verifyCartHasItems();
+    });
+
+    it('Should verify product name consistency between products and cart page', () => {
+      cartPage.addProductToCart();
+      cartPage.verifyProductNameConsistency();
+    });
+
+    // Substituí o teste de "carrinho cheio" por um mais relevante
+    it('Should not add duplicate product from products page', () => {
+      cartPage.addProductToCart();
+      cartPage.verifyCartItemCount(1); // Apenas 1 item adicionado
+      cartPage.verifyAddButtonNotVisible(); // Verifica que o botão "Add" não está mais presente
     });
   });
 });
