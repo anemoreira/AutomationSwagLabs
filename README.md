@@ -142,11 +142,7 @@ Se desejar rodar os testes em um container Docker:
 
 ---
 
-## 📌 Resumo
+## 📌 GitHub Actions
 
-✔ **Instalação**: Como clonar e instalar dependências.  
-✔ **Configuração**: Definir variáveis de ambiente.  
-✔ **Execução de Testes**: Headless, navegador aberto, seleção de testes e ambientes.  
-✔ **Estrutura do Projeto**: Organização dos arquivos e diretórios.  
-✔ **Dicas Extras**: Cache do Cypress e Docker 🚀🔥
+✔ **pipeline criada para projeto**: Project-test-typescript 🚀🔥
 
