@@ -1,53 +1,34 @@
-/**
- * Testes do módulo de produtos
- * Este arquivo contém testes automatizados para validar a funcionalidade de ordenação de produtos,
- * garantindo que os produtos possam ser organizados corretamente por nome e preço.
- */
-
 import { LoginPage } from '../../page-objects/login.page';
 import { ProductsPage } from '../../page-objects/products.page';
+import { Credentials } from '../../support/credentials';
 
-// Instâncias das páginas utilizadas nos testes
 const loginPage = new LoginPage();
 const productsPage = new ProductsPage();
+const credentials = new Credentials();
 
 context('Module Products', () => {
   beforeEach(() => {
-    // Acessa a página de login antes de cada teste
-    cy.visit(loginPage.url);
+    cy.visit(loginPage.getUrl());
+    loginPage.fillCredentials(credentials.getValidCredentials());
+    loginPage.clickLoginButton();
+    loginPage.verifyProductsPage();
   });
 
   describe('Products Functionality', () => {
-    /**
-     * Deve ser possível ordenar os produtos pelo nome em ordem decrescente (Z-A)
-     */
-    it('Should be able to sort the product name in descending order from Z-A', () => {
-      loginPage.login();
-      productsPage.selectProductSortByNameZA();
+    it('Should sort the product name in descending order from Z-A', () => {
+      productsPage.sortByNameZA();
     });
 
-    /**
-     * Deve ser possível ordenar os produtos pelo nome em ordem crescente (A-Z)
-     */
-    it('Should be able to sort product name in ascending order from A-Z', () => {
-      loginPage.login();
-      productsPage.selectProductSortByNameAZ();
+    it('Should sort product name in ascending order from A-Z', () => {
+      productsPage.sortByNameAZ();
     });
 
-    /**
-     * Deve ser possível ordenar os produtos pelo preço do menor para o maior
-     */
-    it('Should be able to sort the product price from low to high', () => {
-      loginPage.login();
-      productsPage.selectProductSortByPriceLowToHigh();
+    it('Should sort the product price from low to high', () => {
+      productsPage.sortByPriceLowToHigh();
     });
 
-    /**
-     * Deve ser possível ordenar os produtos pelo preço do maior para o menor
-     */
-    it('Should be able to sort the product price from high to low', () => {
-      loginPage.login();
-      productsPage.selectProductSortByPriceHighToLow();
+    it('Should sort the product price from high to low', () => {
+      productsPage.sortByPriceHighToLow();
     });
   });
 });
