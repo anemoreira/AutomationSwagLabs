@@ -26,12 +26,12 @@ jobs:
 
       - name: Criar arquivo .env
         run: |
-          echo "CYPRESS_BASE_URL=https://www.saucedemo.com/" >> .env
-          echo "CYPRESS_username=standard_user" >> .env
-          echo "CYPRESS_password=secret_sauce" >> .env
-          echo "CYPRESS_TEXT_FIRST_NAME=Adejane" >> .env
-          echo "CYPRESS_TEXT_LAST_NAME=Silva" >> .env
-          echo "CYPRESS_TEXT_POSTAL_CODE=0000000" >> .env
+          echo "CYPRESS_BASE_URL=${{ secrets.CYPRESS_BASE_URL }}" >> .env
+          echo "CYPRESS_username=${{ secrets.CYPRESS_USERNAME }}" >> .env
+          echo "CYPRESS_password=${{ secrets.CYPRESS_PASSWORD }}" >> .env
+          echo "CYPRESS_TEXT_FIRST_NAME=${{ secrets.CYPRESS_TEXT_FIRST_NAME }}" >> .env
+          echo "CYPRESS_TEXT_LAST_NAME=${{ secrets.CYPRESS_TEXT_LAST_NAME }}" >> .env
+          echo "CYPRESS_TEXT_POSTAL_CODE=${{ secrets.CYPRESS_TEXT_POSTAL_CODE }}" >> .env
 
       - name: Rodar testes Cypress
         run: npx cypress run
