@@ -144,5 +144,5 @@ Se desejar rodar os testes em um container Docker:
 
 ## 📌 GitHub Actions
 
-✔ **pipeline criada para projeto**: Project-test-typescript 🚀🔥
+✔ **pipeline criada para projeto**: Project-test-typescript (.github/workflows) 🚀🔥
 
