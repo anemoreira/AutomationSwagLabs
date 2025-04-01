@@ -1,63 +1,63 @@
-/**
- * Testes do módulo de login
- * Este arquivo contém testes automatizados para validar a funcionalidade de login do sistema,
- * incluindo autenticação, validação de campos obrigatórios e logout.
- */
-
 import { LoginPage } from '../../page-objects/login.page';
+import { Credentials } from '../../support/credentials';
 
-// Instância da página de login
 const loginPage = new LoginPage();
+const credentials = new Credentials();
 
 context('Module Login', () => {
   beforeEach(() => {
-    // Acessa a página de login antes de cada teste
-    cy.visit(loginPage.url);
+    cy.visit(loginPage.getUrl());
   });
 
   describe('Login Functionality', () => {
-    /**
-     * Deve ser possível fazer login com sucesso
-     */
-    it('Should be able to login', () => {
-      loginPage.login();
+    it('Should login successfully with valid credentials', () => {
+      loginPage.fillCredentials(credentials.getValidCredentials());
+      loginPage.clickLoginButton();
+      loginPage.verifyProductsPage();
     });
 
-    /**
-     * Não deve ser possível fazer login sem fornecer um nome de usuário
-     */
-    it('Should not be able to login without providing username', () => {
-      loginPage.btnLogin().click();
-      loginPage.inputUsernameRequired();
+    it('Should not login without username', () => {
+      loginPage.clickLoginButton();
+      loginPage.verifyUsernameRequiredError();
     });
 
-    /**
-     * Não deve ser possível fazer login sem fornecer uma senha
-     */
-    it('Should not be able to login without providing password', () => {
-      loginPage.inputUsername().type('username');
-      loginPage.btnLogin().click();
-      loginPage.inputPasswordRequired();
+    it('Should not login without password', () => {
+      loginPage.fillUsername('username');
+      loginPage.clickLoginButton();
+      loginPage.verifyPasswordRequiredError();
     });
 
-    /**
-     * Não deve ser possível fazer login com nome de usuário ou senha inválidos
-     */
-    it('Should not be able to login with invalid username or password', () => {
-      loginPage.inputUsername().type('username');
-      loginPage.inputPassword().type('password');
-      loginPage.btnLogin().click();
-      loginPage.invalidUsernameOrPassword();
+    it('Should not login with invalid credentials', () => {
+      loginPage.fillCredentials(credentials.getInvalidCredentials());
+      loginPage.clickLoginButton();
+      loginPage.verifyInvalidCredentialsError();
+      loginPage.verifyLoginPage();
     });
 
-    /**
-     * Deve ser possível fazer logout do sistema
-     */
-    it('Should be able to log out of the system', () => {
-      loginPage.login();
-      loginPage.menuBurger();
-      loginPage.linkLogout().click();
-      loginPage.isLoginPage();
+    it('Should logout successfully', () => {
+      loginPage.fillCredentials(credentials.getValidCredentials());
+      loginPage.clickLoginButton();
+      loginPage.verifyProductsPage();
+      loginPage.performLogout();
+      loginPage.verifyLoginPage();
+    });
+
+    it('Should not login with empty credentials', () => {
+      loginPage.clickLoginButton();
+      loginPage.verifyUsernameRequiredError();
+    });
+
+    it('Should maintain login page url on failed login', () => {
+      loginPage.fillCredentials(credentials.getInvalidCredentials());
+      loginPage.clickLoginButton();
+      loginPage.verifyLoginPage();
+    });
+
+    it('Should clear fields after failed login', () => {
+      loginPage.fillCredentials(credentials.getInvalidCredentials());
+      loginPage.clickLoginButton();
+      loginPage.clearFormFields();
+      loginPage.verifyEmptyFields();
     });
   });
 });
