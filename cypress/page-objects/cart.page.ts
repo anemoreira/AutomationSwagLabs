@@ -1,7 +1,7 @@
 export class CartPage {
     private readonly selectors = {
       btnAddToCart: '[data-test="add-to-cart-sauce-labs-backpack"]',
-      btnAddSecondProduct: '[data-test="add-to-cart-sauce-labs-bike-light"]', // Adiciona um segundo produto diferente
+      btnAddSecondProduct: '[data-test="add-to-cart-sauce-labs-bike-light"]',
       btnBackProducts: '[data-test="continue-shopping"]',
       btnRemoveProductFromCart: '[data-test="remove-sauce-labs-backpack"]',
       iconCart: '.shopping_cart_link',
