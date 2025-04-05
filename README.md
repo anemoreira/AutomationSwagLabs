@@ -142,7 +142,10 @@ Se desejar rodar os testes em um container Docker:
 
 ---
 
-## 📌 GitHub Actions
+## 📌 GitHub Actions 🚀🔥
 
-✔ **pipeline criada para projeto**: Project-test-typescript (.github/workflows) 🚀🔥
+✔ **pipeline criada para projeto**: Project-test-typescript (.github/workflows), em casos de falha é possivel baixar os screenshots
+![image](https://github.com/user-attachments/assets/1bcf8562-69ab-4621-8576-8682362522c6)
+
+
 
