@@ -149,7 +149,7 @@ Se desejar rodar os testes em um container Docker:
 1. **É possivel visualizar os cenarios de sucesso executados na pipeline**
 ![image](https://github.com/user-attachments/assets/2ae3a613-fd34-4e27-a0c9-ddf8c6b505b3)
 
-2.**Em casos de falha é possivel baixar os screenshots**
+2. **Em casos de falha é possivel baixar os screenshots**
 ![image](https://github.com/user-attachments/assets/1bcf8562-69ab-4621-8576-8682362522c6)
 
 
