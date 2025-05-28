@@ -131,20 +131,20 @@ Se desejar rodar os testes em um container Docker:
 1. **Construa a imagem Docker:**
 
    ```bash
-   docker build -t project-test-typescript .
+   docker build -t AutomationSwagLabs .
    ```
 
 2. **Execute o container:**
 
    ```bash
-   docker run --rm project-test-typescript
+   docker run --rm AutomationSwagLabs
    ```
 
 ---
 
 ## 📌 GitHub Actions 🚀🔥
 
-✔ **pipeline criada para projeto**: Project-test-typescript (.github/workflows), setado com as respectivas variaveis de ambiente. Para cada alteração neste repositório a pipeline é executada.
+✔ **pipeline criada para projeto**: AutomationSwagLabs (.github/workflows), setado com as respectivas variaveis de ambiente. Para cada alteração neste repositório a pipeline é executada.
 
 1. **É possivel visualizar os cenarios de sucesso executados na pipeline**
 ![image](https://github.com/user-attachments/assets/2ae3a613-fd34-4e27-a0c9-ddf8c6b505b3)
